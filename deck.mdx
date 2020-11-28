@@ -1,0 +1,463 @@
+import Code from "mdx-code";
+import { comic } from "mdx-deck/themes";
+
+export const theme = {
+  ...comic,
+  colors: {
+    ...comic.color,
+    background: "white",
+  },
+};
+
+<div
+  style={{
+    width: "100vw",
+    height: "100vh",
+    justifyContent: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    background: "white",
+  }}
+>
+  <img
+    src="https://bytex.net/wp-content/uploads/2019/04/bytex-small.png"
+    width="200"
+  />
+  <img src="./assets/logo.png" width="400" />
+</div>
+
+---
+
+<img src="./assets/node.png" width="200" />
+
+# Node.js
+
+A JavaScript runtime
+
+### v15.3.0
+
+---
+
+## Example
+
+<Code>
+
+```js
+const http = require("http");
+
+//create a server object:
+http
+  .createServer((req, res) => {
+    res.write("Hello World!"); //write a response to the client
+    res.end(); //end the response
+  })
+  .listen(8080); //the server object listens on port 8080
+```
+
+</Code>
+
+---
+
+<img src="./assets/logo.svg" width="200" />
+
+# Deno
+
+A secure runtime for JavaScript and TypeScript
+
+### v1.5.4
+
+---
+
+## Example
+
+<Code>
+
+```ts
+import { serve } from "https://deno.land/std@0.79.0/http/server.ts";
+
+const s = serve({ port: 8000 });
+
+for await (const req of s) {
+  req.respond({ body: "Hello World" });
+}
+```
+
+</Code>
+
+---
+
+<img
+  src="http://talks.ui-patterns.com/uploads/taxon/image/609/preview_Ryan_Dahl.jpg"
+  width="200"
+/>
+
+# Deno & Node
+
+Both have one origin: Ryan Dahl
+
+---
+
+<img
+  src="https://miro.medium.com/max/1400/1*xjeie57XE-WwgZapYNToRQ.png"
+  width="600"
+/>
+
+### Ryan worked on the Node project since 2009
+
+### In 2018 he gave the 10 Things I Regret About Node.js talk
+
+---
+
+![](https://media.giphy.com/media/2rqEdFfkMzXmo/giphy.gif)
+
+# Funfact
+
+### Deno is actually an anagram for Node
+
+---
+
+# What's wrong with Node.js?
+
+### As Dahl said
+
+---
+
+![](https://media.giphy.com/media/A7LhJ4LHiChe8/giphy.gif)
+
+# 1. Not sticking to promises
+
+### Promises are the necessary abstration for async / await
+
+---
+
+## Node.js example
+
+<Code>
+
+```js
+const fs = require("fs");
+
+fs.readFile("readme.txt", (err, data) => {
+  if (err) {
+    // Handle the error
+  }
+  // Otherwise handle the data
+});
+```
+
+</Code>
+
+---
+
+## Deno example
+
+<Code>
+
+```ts
+try {
+  const data = await Deno.readFile("readme.txt");
+  // Handle the data
+} catch (e) {
+  // Handle the error
+}
+```
+
+</Code>
+
+---
+
+# 2. Security
+
+### Node.js has access to all sorts of system calls
+
+---
+
+# 3. The Build System GYP
+
+### Dropped by Chrome but Node continued using it
+
+---
+
+# 4. package.json
+
+### Made Node.js dependent on NPM
+
+---
+
+![](https://media.giphy.com/media/3orieOIjlwWzMcY3hS/giphy.gif)
+
+# 5. node_modules
+
+### Heaviest object in the Universe
+
+---
+
+# 6. require("module") without .js
+
+### Needlessly complicated module loading system just to look fancy
+
+---
+
+## Example
+
+<Code>
+
+```ts
+const { something } = require("utils/http");
+```
+
+</Code>
+
+---
+
+# Deno vs Node.js
+
+---
+
+![](https://media.giphy.com/media/W093Amc6yeS3IZbmAz/giphy.gif)
+
+# The begining of the end?
+
+Will Deno replace Node.js?
+
+---
+
+![](https://media.giphy.com/media/rNjoMutsPuOaKlaMHi/giphy.gif)
+
+# Deno vs Node.js
+
+### Under the hood
+
+---
+
+# Node.js
+
+### Based on C++ and uses the V8 engine to execute JavaScript code
+
+---
+
+# Deno
+
+### Also relies on the V8 engine, but instead of C++, Deno is build on Rust
+
+---
+
+![](https://media.giphy.com/media/LMtxJ3trXmNaMBKNat/giphy.gif)
+
+# Deno vs Node.js
+
+### Security
+
+---
+
+# Node.js
+
+### Once a node app is running, it can easily access the file system or the network
+
+---
+
+## Example
+
+<Code>
+
+```js
+const http = require("http");
+
+http
+  .createServer((req, res) => {
+    res.write("Hello World!");
+    res.end();
+  })
+  .listen(8080);
+
+// node app.js
+```
+
+</Code>
+
+---
+
+# Deno
+
+### Deno wants to avoid this by requiring permissions to access the resources
+
+---
+
+## Example
+
+<Code>
+
+```ts
+import { serve } from "https://deno.land/std@0.50.0/http/server.ts";
+
+const s = serve({ port: 8000 });
+
+for await (const req of s) {
+  req.respond({ body: "Hello World" });
+}
+
+// deno run app.ts
+```
+
+</Code>
+
+---
+
+# But...
+
+![](https://miro.medium.com/max/1400/1*PVk7YRhproMA9auKKVJmEA.png)
+
+---
+
+## Example
+
+<Code>
+
+```ts
+import { serve } from "https://deno.land/std@0.50.0/http/server.ts";
+
+const s = serve({ port: 8000 });
+
+for await (const req of s) {
+  req.respond({ body: "Hello World" });
+}
+
+// deno run --allow-net app.ts
+```
+
+</Code>
+
+---
+
+![](https://media.giphy.com/media/8rFgzA7aBR0aomiOMj/giphy.gif)
+
+# Goodbye NPM, hello ES6 import!
+
+---
+
+# Node.js
+
+### The package.json file is used to specify the package name and acceptable version range
+
+---
+
+## Example
+
+<Code>
+
+```js
+const http = require("http");
+```
+
+</Code>
+
+---
+
+# Deno
+
+### No need for a package manager altogether. Instead, packages are linked to directly via a URL
+
+---
+
+## Example
+
+<Code>
+
+```ts
+import { serve } from "https://deno.land/std@0.50.0/http/server.ts";
+```
+
+</Code>
+
+![](https://miro.medium.com/max/1400/1*ti57cy3E8osSY3PDGiu4Xg.png)
+
+---
+
+![](https://media.giphy.com/media/rVVFWyTINqG7C/giphy.gif)
+
+# The window object
+
+### Also outside the browser
+
+---
+
+# Where window is...
+
+### We can also use fetch
+
+---
+
+## Example
+
+<Code>
+
+```js
+fetch("https://jsonplaceholder.typicode.com/todos/1")
+  .then((response) => response.json())
+  .then((json) => console.log(json));
+```
+
+</Code>
+
+---
+
+# One more thing
+
+---
+
+![](https://media.giphy.com/media/pjPfdL0lAmhuwcuM59/giphy.gif)
+
+# Deno: Batteries included
+
+---
+
+## Deno provides us some nice "bonus features"
+
+- bundler
+- debugger
+- dependency inspector
+- documentation generator
+- formatter
+- test runner
+- linter (currently unstable)
+
+---
+
+![](https://media.giphy.com/media/W093Amc6yeS3IZbmAz/giphy.gif)
+
+# The begining of the end?
+
+Will Deno replace Node.js?
+
+---
+
+# NO
+
+### As Dahl presented it in another talk
+
+---
+
+# Conclusions
+
+- Who is Ryan Dahl
+- History of Deno
+- Deno features
+- Some Deno examples
+- Node.js vs Deno
+
+---
+
+# Resources
+
+- https://deno.land
+- https://www.youtube.com/watch?v=M3BM9TB-8yA
+- https://doc.deno.land/builtin/stable
+- https://medium.com/javascript-in-plain-english/the-biggest-scandals-of-npm-d739c11a2406
+- https://medium.com/javascript-in-plain-english/deno-vs-node-js-here-are-the-most-important-differences-62b547443be1
+
+---
+
+![](https://media.giphy.com/media/3ohhwLgxEYOFwqgI3S/giphy.gif)
+
+### Thank you for your time!
